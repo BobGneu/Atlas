@@ -24,11 +24,8 @@ public:
 
 	virtual void SetApplicationID(FString id) = 0; 
 	virtual void SetServer(FString uri) = 0;
-
 	virtual void IsInternal(bool val) = 0;
+	virtual void ShouldForceQuitOnFailure(bool val) = 0;
 
-	virtual void AllowEditor(bool val) = 0;
-	virtual void AllowGame(bool val) = 0;
-
-	virtual bool CheckAccess() = 0;
+	virtual bool CheckAccess(FString userid) = 0;
 };

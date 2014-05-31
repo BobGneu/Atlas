@@ -20,9 +20,10 @@ public class Atlas : ModuleRules
         PublicDependencyModuleNames.AddRange(new string[] 
         { 
             "Engine", 
-            "Core" 
+            "Core", 
+            "HTTP"
         });
 
-        Definitions.Add("WITH_ANGEL=1");
+        Definitions.Add("WITH_ATLAS=1");
     }
 }
