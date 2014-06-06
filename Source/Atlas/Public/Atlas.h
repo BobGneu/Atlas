@@ -7,14 +7,14 @@
 /**
 * The public interface to this module. 
 */
-class IAtlas : public IModuleInterface
+class Atlas : public IModuleInterface
 {
 
 public:
 
-	static inline IAtlas& Get()
+	static inline Atlas& Get()
 	{
-		return FModuleManager::LoadModuleChecked<IAtlas>("Atlas");
+		return FModuleManager::LoadModuleChecked<Atlas>("Atlas");
 	}
 
 	static inline bool IsAvailable()

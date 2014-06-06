@@ -1,35 +1,34 @@
 // Copyright 2013 Gneu, LLC. All Rights Reserved.
 
 #include "AtlasPCH.h"
-#include "Atlas.h"  
-#include "Json.h"
+#include "Atlas_impl.h"  
 
-DEFINE_LOG_CATEGORY(Atlas);
+DEFINE_LOG_CATEGORY(AtLog);
 
-void MAtlas::StartupModule()
+void Atlas_impl::StartupModule()
 {
 }
 
-void MAtlas::ShutdownModule()
+void Atlas_impl::ShutdownModule()
 {
 }
 
-void MAtlas::IsInternal(bool val)
+void Atlas_impl::IsInternal(bool val)
 {
 	bInternal = val;
 }
 
-void MAtlas::SetServer(FString uri)
+void Atlas_impl::SetServer(FString uri)
 {
 	ServerURI = uri;
 }
 
-void MAtlas::SetApplicationID(FString id)
+void Atlas_impl::SetApplicationID(FString id)
 {
 	AppID = id;
 }
 
-bool MAtlas::CheckAccess(FString userid)
+bool Atlas_impl::CheckAccess(FString userid)
 {
 	FString requestURL = ServerURI + "/tracking/auth/";
 
@@ -38,20 +37,20 @@ bool MAtlas::CheckAccess(FString userid)
 
 	TSharedRef<class IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &MAtlas::RequestComplete);
-	HttpRequest->SetVerb(TEXT("POST"));
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &Atlas_impl::RequestComplete);
+	HttpRequest->SetVerb(TEXT("GET"));
 	HttpRequest->SetURL(requestURL + AppID + "/" + (bInternal ? "true": "false") + "/" + userid);
 
-	UE_LOG(Atlas, Log, TEXT("%s"), *HttpRequest->GetURL());
+	UE_LOG(AtLog, Log, TEXT("%s"), *HttpRequest->GetURL());
 
 	return HttpRequest->ProcessRequest();
 }
 
-void MAtlas::RequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded)
+void Atlas_impl::RequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded)
 {
-	UE_LOG(Atlas, Log, TEXT("%s"), bSucceeded ? TEXT("SUCCEEDED") : TEXT("FAILED"));
+	UE_LOG(AtLog, Log, TEXT("%s"), bSucceeded ? TEXT("SUCCEEDED") : TEXT("FAILED"));
 
-	UE_LOG(Atlas, Log, TEXT("%s"), *HttpRequest->GetURL());
+	UE_LOG(AtLog, Log, TEXT("%s"), *HttpRequest->GetURL());
 
 	TSharedRef< TJsonReader<> > Reader = TJsonReaderFactory<>::Create(HttpResponse->GetContentAsString());
 
@@ -73,7 +72,7 @@ void MAtlas::RequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpR
 	}
 }
 
-void MAtlas::ShouldForceQuitOnFailure(bool val)
+void Atlas_impl::ShouldForceQuitOnFailure(bool val)
 {
 	bForceQuit = val;
 }

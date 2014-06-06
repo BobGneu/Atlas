@@ -1,17 +1,12 @@
 // Copyright 2013 Gneu, LLC. All Rights Reserved.
 
-#include "HttpModule.h"
-#include "Http.h"
-#include "IAtlas.h"
+#include "Atlas.h"
 
 #pragma once
 
-class MAtlas : public IAtlas
+class Atlas_impl : public Atlas
 {
-
 public:
-	
-	/** IModuleInterface implementation */
 	virtual void StartupModule() OVERRIDE;
 	virtual void ShutdownModule() OVERRIDE;
 
@@ -35,5 +30,5 @@ protected:
 	bool bForceQuit;
 };
 
-IMPLEMENT_MODULE(MAtlas, Atlas)
+IMPLEMENT_MODULE(Atlas_impl, Atlas)
 
