@@ -7,8 +7,8 @@
 class Atlas_impl : public Atlas
 {
 public:
-	virtual void StartupModule() OVERRIDE;
-	virtual void ShutdownModule() OVERRIDE;
+	virtual void StartupModule() ;
+	virtual void ShutdownModule() ;
 
 	void SetApplicationID(FString id);
 
