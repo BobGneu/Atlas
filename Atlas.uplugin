@@ -4,7 +4,6 @@
     "Version" : 1,
 	"VersionName": "RC 1",
     "FriendlyVersion" : "1.0",
-    "EngineVersion" : 1579795,
     "Description" : "Alpha/Beta Screening Plugin to help Control & Monitor access to your projects.",
     "Category" : "Security.Tracking",
 	"CreatedBy" : "Bob Chatman",
