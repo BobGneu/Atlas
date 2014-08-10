@@ -30,10 +30,10 @@ void Atlas_impl::SetApplicationID(FString id)
 
 bool Atlas_impl::CheckAccess(FString userid)
 {
-	FString requestURL = ServerURI + "/tracking/auth/";
+	FString requestURL = ServerURI + "/auth/";
 
 	// Query Server
-	// http://localhost:3000/tracking/auth/exodus/true/test
+	// http://localhost:3000/auth/exodus/true/test
 
 	TSharedRef<class IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
 
@@ -41,17 +41,11 @@ bool Atlas_impl::CheckAccess(FString userid)
 	HttpRequest->SetVerb(TEXT("GET"));
 	HttpRequest->SetURL(requestURL + AppID + "/" + (bInternal ? "true": "false") + "/" + userid);
 
-	UE_LOG(AtLog, Log, TEXT("%s"), *HttpRequest->GetURL());
-
 	return HttpRequest->ProcessRequest();
 }
 
 void Atlas_impl::RequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded)
 {
-	UE_LOG(AtLog, Log, TEXT("%s"), bSucceeded ? TEXT("SUCCEEDED") : TEXT("FAILED"));
-
-	UE_LOG(AtLog, Log, TEXT("%s"), *HttpRequest->GetURL());
-
 	TSharedRef< TJsonReader<> > Reader = TJsonReaderFactory<>::Create(HttpResponse->GetContentAsString());
 
 	TSharedPtr<FJsonObject> Object;
@@ -66,9 +60,16 @@ void Atlas_impl::RequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr H
 	check(Value && (*Value)->Type == EJson::Boolean);
 	const bool allowEditor = (*Value)->AsBool();
 
-	if (bForceQuit && (!(GIsEditor && allowEditor) || !(!GIsEditor && allowGame)))
+	if (bForceQuit)
 	{
-		FPlatformMisc::RequestExit(true);
+		if (GIsEditor && !allowEditor)
+		{
+			FPlatformMisc::RequestExit(true);
+		}
+		else if (!GIsEditor && !allowGame)
+		{
+			FPlatformMisc::RequestExit(true);
+		}
 	}
 }
 
