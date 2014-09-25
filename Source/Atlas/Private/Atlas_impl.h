@@ -4,7 +4,7 @@
 
 #pragma once
 
-class Atlas_impl : public Atlas
+class ATLAS_API Atlas_impl : public Atlas
 {
 public:
 	virtual void StartupModule() ;

@@ -7,7 +7,7 @@
 /**
 * The public interface to this module. 
 */
-class Atlas : public IModuleInterface
+class ATLAS_API Atlas : public IModuleInterface
 {
 
 public:
