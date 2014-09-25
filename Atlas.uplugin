@@ -8,6 +8,7 @@
     "Category" : "Security.Tracking",
 	"CreatedBy" : "Bob Chatman",
 	"CreatedByURL" : "http://gneu.org",
+	"EnabledByDefault" : true,
     "Modules" :
     [
         {
