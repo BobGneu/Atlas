@@ -46,6 +46,16 @@ bool Atlas_impl::CheckAccess(FString userid)
 
 void Atlas_impl::RequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded)
 {
+	if (!HttpResponse.IsValid())
+	{
+		if (bForceQuit)
+		{
+			FPlatformMisc::RequestExit(true);
+		}
+
+		return;
+	}
+
 	TSharedRef< TJsonReader<> > Reader = TJsonReaderFactory<>::Create(HttpResponse->GetContentAsString());
 
 	TSharedPtr<FJsonObject> Object;
